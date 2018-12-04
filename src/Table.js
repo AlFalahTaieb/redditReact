@@ -1,36 +1,55 @@
 import React from 'react';
 import Button from "./Button";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
-const Table = ({ list, onDismiss }) =>
-  <div className='table'>
+const Table1 = ({ list, onDismiss }) =>
+
+  <Table className='table'>
+  <TableHead>
+          <TableRow>
+            <TableCell>Direct Link</TableCell>
+            <TableCell >Image</TableCell>
+            <TableCell >User</TableCell>
+            <TableCell>Score</TableCell>
+            <TableCell>Links</TableCell>
+          </TableRow>
+        </TableHead>
+  <TableBody>
     { list.map(item =>
-      <div key={item.id} className='table-row'>
+      <TableRow key={item.id} className='table-row'>
+        <TableCell style={largeColumn}>
+          <a href={item.permalink}>{item.title}</a>
+        </TableCell>
         <span style={largeColumn}>
-          <a href={item.url}>{item.title}</a>
-        </span>
-        {/* <span style={largeColumn}>
           <img src={item.url}  height="142" width="142"></img>
-        </span> */}
-        <span style={mediumColumn}>
+        </span>
+        <TableCell style={mediumColumn}>
           {item.author}
-        </span>
-        <span style={smallColumn}>
+        </TableCell>
+        <TableCell style={smallColumn}>
           {item.score}
-        </span>
+        </TableCell>
+        <TableCell style={smallColumn}>
+          <a href={item.url}>Link To The source</a>
+        </TableCell>
         <span style={smallColumn}>
-          {item.url}
-        </span>
-        <span style={smallColumn}>
-        <Button
+          
+        {/* <Button
           onClick={() => onDismiss(item.id)}
           className='button-inline'
         >
           Dismiss
-        </Button>
+        </Button> */}
         </span>
-      </div>
+      </TableRow>
+      
     )}
-  </div>
+    </TableBody>
+  </Table>
 
 const largeColumn = {
   width: '40%'
@@ -41,4 +60,4 @@ const mediumColumn = {
 const smallColumn = {
   width: '10%'
 }
-export default Table;
+export default Table1

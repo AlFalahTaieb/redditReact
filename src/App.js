@@ -2,19 +2,17 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
-import Table from './Table.js'
-import Button from './Button.js'
+import Table1 from './Table.js'
 import Search from './Search.js'
+const DEFAULT_QUERY = 'aww'
+const PATH_BASE = "https://www.reddit.com/r/"
+const TOP_SEARCH = '/top.json?limit=100'
+const NEW_SEARCH = '/new.json?limit=100'
+const ALLTIMETOP_SEARCH = '/top/.json?limit=100?sort=top&t=all'  
 
-const DEFAULT_QUERY = 'aww';
-const PATH_BASE = "https://www.reddit.com/r/";
-const TOP_SEARCH = '/top.json?limit=100';
-
-// const isSearched = searchTerm => item =>
-//   item.title.toLowerCase().includes(searchTerm.toLowerCase());
 
 class App extends Component {
-  // _isMounted = false;
+  _isMounted = false;
 
   constructor(props) {
     super(props);
@@ -28,16 +26,21 @@ class App extends Component {
     this.onSearchChange = this.onSearchChange.bind(this)
     this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
-    // this.needToSearchTopStories = this.needToSearchTopStories.bind(this);
-    // this.setSearchTopStories = this.setSearchTopStories.bind(this);
+    this.imgurLink = this.imgurLink.bind(this);
+
   }
 
   needToSearchTopStories(searchTerm) {
     return !this.state.results[searchTerm];
   }
-  // setSearchTopStories(response) {
-  //   this.setState({ response });
-  // }
+
+   imgurLink(str){
+    let rectif = '.jpg'
+    if (!/(\.).*\1/.test(str) == true){
+    return str=str+rectif
+    }
+    }
+
 
   onSearchChange(event) {
     this.setState({ searchTerm: event.target.value });
@@ -46,16 +49,18 @@ class App extends Component {
 
 
   fetchSearchTopStories(searchTerm) {
-
+    const red = 'https://www.reddit.com'
     axios.get(`${PATH_BASE}${searchTerm}${TOP_SEARCH}`, { responseType: 'json' })
       .then(response => {
         const tab = (response.data.data.children)
         const results = tab.map(table => {
+          // url=this.imgurLink(table.data.url)
           return {
             url: table.data.url,
             author: table.data.author,
             score: table.data.score,
-            title: table.data.title
+            title: table.data.title,
+            permalink:red+table.data.permalink
           }
         })
         return this.setState({
@@ -90,51 +95,6 @@ class App extends Component {
     this._isMounted = false
   }
 
-  onDismiss(id) {
-    const { searchKey, results } = this.state;
-    const { hits } = results[searchKey];
-
-    const isNotId = item => item.objectID !== id;
-    const updatedHits = hits.filter(isNotId);
-    this.setState({
-      results: {
-        ...results,
-        [searchKey]: { hits: updatedHits }
-      }
-    })
-  }
-
-  // fetchRed(event) {
-  //   axios.get(`https://www.reddit.com/r/${searchTerm}/top.json?limit=100`, { responseType: 'json' }).then(response => {
-  //     const tab = (response.data.data.children)
-  //     console.log(tab)
-  //     for (let i = 0; i < tab.length; i++) {
-  //       console.log(tab[i].data.url)
-  //     }
-  //   });
-  // }
- 
-  // setSearchTopStories(response) {
-  //   const { hits } = response;
-  //   const { searchKey, results } = this.state
-  //   console.log(this.state)
-  //   const oldHits = results && results[searchKey]
-  //     ? results[searchKey].hits : [];
-
-
-  //   const updatedHits = [
-  //     ...oldHits,
-  //     ...hits
-  //   ];
-  //   this.setState({
-  //     results: {
-  //       ...results,
-  //       [searchKey]: { hits: updatedHits }
-  //     }
-  //   });
-  // }
-
-
   render() {
     const {
       searchTerm,
@@ -150,6 +110,7 @@ class App extends Component {
     return (
       <div className="page">
         <div className="interactions">
+
           <Search
             value={searchTerm}
             onChange={this.onSearchChange}
@@ -157,22 +118,16 @@ class App extends Component {
           >
             Search
       </Search>
+
         </div>
         {error
           ? <div className='interactions'>
             <p>Something wen wrong.</p>
           </div>
-          : <Table
+          : <Table1
             list={list}
-            onDismiss={this.onDismiss}
           />
         }
-        {/* <div className='interactions'>
-          <Button onClick={() => this.fetchSearchTopStories(searchTerm)}>
-            More
-        </Button>
-        </div> */}
-
       </div>
     );
   }
