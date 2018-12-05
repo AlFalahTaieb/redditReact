@@ -59,7 +59,7 @@ class App extends Component {
             url: table.data.url,
             author: table.data.author,
             score: table.data.score,
-            title: table.data.title,
+            title: (table.data.title).replace(/(.{35})..+/, "$1…"),
             permalink:red+table.data.permalink
           }
         })
