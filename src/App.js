@@ -4,11 +4,14 @@ import './App.css';
 
 import Table1 from './Table.js'
 import Search from './Search.js'
+
+
+
 const DEFAULT_QUERY = 'aww'
 const PATH_BASE = "https://www.reddit.com/r/"
 const TOP_SEARCH = '/top.json?limit=100'
-const NEW_SEARCH = '/new.json?limit=100'
-const ALLTIMETOP_SEARCH = '/top/.json?limit=100?sort=top&t=all'  
+// const NEW_SEARCH = '/new.json?limit=100'
+// const ALLTIMETOP_SEARCH = '/top/.json?limit=100?sort=top&t=all'
 
 
 class App extends Component {
@@ -21,25 +24,46 @@ class App extends Component {
       results: null,
       searchTerm: DEFAULT_QUERY,
       searchKey: '',
-      error: null
+      error: null,
+      idR:null
     }
     this.onSearchChange = this.onSearchChange.bind(this)
     this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.imgurLink = this.imgurLink.bind(this);
+    this.testing = this.testing.bind(this)
+    this.onDismiss = this.onDismiss.bind(this)
+  }
+  onDismiss(id,url,title) {
+    // const {title, url} = this.state
+    this.setState({
+      // id:this.state.id,
+      url:url,
+      title:this.state.title
+    })
+     console.log(title,url,id)
+  }
 
+  testing(id) {
+   this.setState({
+     id:id,
+     title:this.state.title
+   })
+    console.log(this.state.title)
   }
 
   needToSearchTopStories(searchTerm) {
     return !this.state.results[searchTerm];
   }
 
-   imgurLink(str){
+
+
+  imgurLink(str) {
     let rectif = '.jpg'
-    if (!/(\.).*\1/.test(str) == true){
-    return str=str+rectif
+    if (!/(\.).*\1/.test(str) === true) {
+      return str = str + rectif
     }
-    }
+  }
 
 
   onSearchChange(event) {
@@ -56,11 +80,12 @@ class App extends Component {
         const results = tab.map(table => {
           // url=this.imgurLink(table.data.url)
           return {
+            id: table.data.id,
             url: table.data.url,
             author: table.data.author,
             score: table.data.score,
             title: (table.data.title).replace(/(.{35})..+/, "$1…"),
-            permalink:red+table.data.permalink
+            permalink: red + table.data.permalink
           }
         })
         return this.setState({
@@ -91,7 +116,7 @@ class App extends Component {
 
   }
 
-    componentWillUnmount() {
+  componentWillUnmount() {
     this._isMounted = false
   }
 
@@ -99,8 +124,11 @@ class App extends Component {
     const {
       searchTerm,
       results,
-      searchKey,
+      // getUserById,
       error,
+      // id,
+      // isOpen,
+
     } = this.state;
 
     const list = (
@@ -110,7 +138,12 @@ class App extends Component {
     return (
       <div className="page">
         <div className="interactions">
-
+          {/* <Show
+        onClose={this.onClose}
+        isOpen={isOpen}
+        id={id}
+        getUserById={getUserById}
+      /> */}
           <Search
             value={searchTerm}
             onChange={this.onSearchChange}
@@ -125,9 +158,16 @@ class App extends Component {
             <p>Something wen wrong.</p>
           </div>
           : <Table1
+          onDismiss={this.onDismiss}
             list={list}
           />
         }
+        {/* <Button
+                    content="Edit"
+                    onClick={() => {
+                      this.setState({ isOpen: true, id: id })
+                    }}
+                  /> */}
       </div>
     );
   }
