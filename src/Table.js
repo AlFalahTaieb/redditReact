@@ -1,6 +1,6 @@
 import React  from 'react';
 
-// import Show from "./Show";
+import Show from "./Show";
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -65,11 +65,11 @@ const divStyle = {
     </TableBody>
   </Table>
 
-const Show = ({url}) =>
-  <h1>
-    {url="pst"}
- 3asba
-  </h1>
+// const Show = ({url}) =>
+//   <h1>
+//     {url="pst"}
+//  3asba
+//   </h1>
 
 
 
