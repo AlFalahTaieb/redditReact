@@ -56,7 +56,7 @@ class Show extends React.Component {
                 >
                     <div >
                         <div variant="h2" id="modal-title">
-                            {/* <h1>{this.state.url} </h1> <h1> {this.state.id}</h1> */}
+                            <h1>{this.state.url} </h1> <h1> {this.state.id}</h1>
 
                         </div>
 
