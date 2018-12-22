@@ -4,14 +4,14 @@ import './App.css';
 
 import Table1 from './Table.js'
 import Search from './Search.js'
-
+// import Pick from './Pick.js'
 
 
 const DEFAULT_QUERY = 'aww'
 const PATH_BASE = "https://www.reddit.com/r/"
 const TOP_SEARCH = '/top.json?limit=100'
-// const NEW_SEARCH = '/new.json?limit=100'
-// const ALLTIMETOP_SEARCH = '/top/.json?limit=100?sort=top&t=all'
+const NEW_SEARCH = '/new.json?limit=100'
+const ALLTIMETOP_SEARCH = '/top/.json?limit=100?sort=top&t=all'
 
 
 class App extends Component {
@@ -24,8 +24,9 @@ class App extends Component {
       results: null,
       searchTerm: DEFAULT_QUERY,
       searchKey: '',
+      sortKey: TOP_SEARCH,
       error: null,
-      idR:null
+      idR: null
     }
     this.onSearchChange = this.onSearchChange.bind(this)
     this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
@@ -33,22 +34,23 @@ class App extends Component {
     this.imgurLink = this.imgurLink.bind(this);
     this.testing = this.testing.bind(this)
     this.onDismiss = this.onDismiss.bind(this)
+    
   }
-  onDismiss(id,url,title) {
+  onDismiss(id, url, title) {
     // const {title, url} = this.state
     this.setState({
       // id:this.state.id,
-      url:url,
-      title:this.state.title
+      url: url,
+      title: this.state.title
     })
-     console.log(title,url,id)
+    console.log(title, url, id)
   }
 
   testing(id) {
-   this.setState({
-     id:id,
-     title:this.state.title
-   })
+    this.setState({
+      id: id,
+      title: this.state.title
+    })
     console.log(this.state.title)
   }
 
@@ -74,7 +76,7 @@ class App extends Component {
 
   fetchSearchTopStories(searchTerm) {
     const red = 'https://www.reddit.com'
-    axios.get(`${PATH_BASE}${searchTerm}${TOP_SEARCH}`, { responseType: 'json' })
+    axios.get(`${PATH_BASE}${searchTerm}${ TOP_SEARCH  }`, { responseType: 'json' })
       .then(response => {
         const tab = (response.data.data.children)
         const results = tab.map(table => {
@@ -99,6 +101,7 @@ class App extends Component {
     this._isMounted = true
     const { searchTerm } = this.state
     this.setState({ searchKey: searchTerm })
+    // this.setState({ sortKey: sortKey })
     this.fetchSearchTopStories(searchTerm)
 
   }
@@ -124,6 +127,7 @@ class App extends Component {
     const {
       searchTerm,
       results,
+      sortKey,
       // getUserById,
       error,
       // id,
@@ -136,6 +140,7 @@ class App extends Component {
       || []
     if (!results) { return null; }
     return (
+
       <div className="page">
         <div className="interactions">
           {/* <Show
@@ -151,14 +156,15 @@ class App extends Component {
           >
             Search
       </Search>
-
+      {/* <Pick pick={sortKey}></Pick> */}
         </div>
+        
         {error
           ? <div className='interactions'>
             <p>Something wen wrong.</p>
           </div>
           : <Table1
-          onDismiss={this.onDismiss}
+            onDismiss={this.onDismiss}
             list={list}
           />
         }

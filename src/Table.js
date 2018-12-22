@@ -1,22 +1,35 @@
 import React  from 'react';
 
 import Show from "./Show";
-import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import { object } from 'prop-types';
 
-const divStyle = {
-  marginBottom: '75px'
+// const divStyle = {
+//   marginBottom: '75px',
+// }
+
+const tableColor= {
+  backgroundColor:'#e3fdfd'
 }
 
+const tableCol = { 
+  backgroundColor:'#00adb5'
+}
+
+const imagFix =  {
+  margin:'35px',
+  display:'absolute'
+}
+
+
+
   const Table1 =({list, onDismiss})=>
-  <Table className='table'>
+  <Table style={tableCol}  className='table'>
     <TableHead>
-      <TableRow>
+      <TableRow >
         <TableCell>Direct Link</TableCell>
         <TableCell >Image</TableCell>
         <TableCell >User</TableCell>
@@ -24,14 +37,14 @@ const divStyle = {
         <TableCell>Links</TableCell>
       </TableRow>
     </TableHead>
-    <TableBody>
+    <TableBody >
       {list.map(item =>
-        <TableRow key={item.id} className='table-row'>
+        <TableRow style={tableColor} key={item.id} className='table-row'>
           <TableCell style={largeColumn}>
             <a href={item.permalink}>{item.title}</a>
           </TableCell>
           <span style={largeColumn}>
-            <img src={item.url} height="142" width="142"></img>
+            <img style={imagFix} src={item.url} height="242" width="242"></img>
           </span>
           <TableCell style={mediumColumn}>
             {item.author}
@@ -42,34 +55,14 @@ const divStyle = {
           <TableCell style={smallColumn}>
             <a href={item.url}>Link To The source</a>
           </TableCell>
-          <span style={smallColumn}>
-           <TableCell
-           style={divStyle}
-           > 
-           <Button
-           style={divStyle}
-              variant="contained"
-              color="secondary"
-              onClick={() => onDismiss(item.id, item.url, item.title)}
-              className='button-inline'
-            >
-              Show
-        </Button>
-        <Show></Show>
-        </TableCell>
-      
-          </span>
+          <TableCell style={smallColumn}>
+          <Show  url={item.url} title={item.id} score={item.score}  className='button-inline' ></Show>
+          </TableCell>
         </TableRow>
 
       )}
     </TableBody>
   </Table>
-
-// const Show = ({url}) =>
-//   <h1>
-//     {url="pst"}
-//  3asba
-//   </h1>
 
 
 

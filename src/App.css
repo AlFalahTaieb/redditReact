@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+
 }
 
 .App-logo {
@@ -8,7 +9,7 @@
 }
 
 .App-header {
-  background-color: #222;
+  background-color:white;
   height: 150px;
   padding: 20px;
   color: white;
@@ -27,9 +28,12 @@
   to { transform: rotate(360deg); }
 }
 
-
+body{
+  background-color:#cbf1f5;
+}
 .page {
   margin: 20px;
+  background-clip:white;
 }
 
 .interactions {

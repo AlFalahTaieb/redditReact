@@ -1,22 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // import { withStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 const divStyle = {
     marginLeft: '15px',
-    width:'100px',
-    marginTop:'15px'
-  }
-class SimpleSelect extends React.Component {
-    state = {
-        age: '',
-        name: 'hai',
-        labelWidth: 0,
-    };
+    width: '100px',
+    marginTop: '15px'
+}
+class Pick extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            pick: ''
+        }
+        this.onChangePick = this.onChangePick.bind(this)
+    }
+
+    // componentDidMount() {
+    //     this._isMounted = true
+    //     const { pick } = this.state
+    //     this.setState({ pick: pick })}
+    
+
+    onChangePick(event) {
+        this.setState({ pick: event.target.value });
+    }
 
 
     handleChange = event => {
@@ -24,8 +36,8 @@ class SimpleSelect extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
-
+        const { pick } = this.state
+        console.log(pick)
         return (
             <FormControl
                 style={divStyle} >
@@ -33,17 +45,16 @@ class SimpleSelect extends React.Component {
                 <Select
                     value={this.state.Sort}
                     onChange={this.handleChange}
-                    inputProps={{
-                        name: 'Sort',
-                    }}
                 >
-                    <MenuItem value="new">
+                    <MenuItem
+                        pick={pick}
+                        onChange={this.onChangePick}>
                         <em>New</em>
                     </MenuItem>
-                    <MenuItem value={'day'}>Day</MenuItem>
-                    <MenuItem value={'week'}>Week</MenuItem>
-                    <MenuItem value={'month'}>Month</MenuItem>
-                    <MenuItem value={'year'}>Year</MenuItem>
+                    <MenuItem
+                        pick={pick}
+                        onChange={this.onChangePick}
+                    >Year</MenuItem>
                     <MenuItem value={'ever'}>Ever</MenuItem>
                 </Select>
             </FormControl>
@@ -51,8 +62,8 @@ class SimpleSelect extends React.Component {
     }
 }
 
-SimpleSelect.propTypes = {
+Pick.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default SimpleSelect;
+export default Pick;
